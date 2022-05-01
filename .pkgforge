@@ -7,7 +7,14 @@ source(
 )
 
 build do
-  new_root = tmpdir(:root)
+  new_image = File.join(tmpdir(:root), 'image')
+  new_root = File.join(tmpdir(:root), 'mount')
+
+  run "dd if=/dev/zero of=#{new_image} bs=1MB count=4096"
+  run "mkfs.ext4 -F #{new_image}"
+  FileUtils.mkdir_p new_root
+  run "mount #{new_image} #{new_root}"
+
   run "pacstrap -c -G #{new_root} base"
   run "cp -R overlay/* #{new_root}/"
   run "arch-chroot #{new_root} pacman-key --init"
@@ -16,7 +23,8 @@ build do
   %w(etc/hosts etc/mtab etc/resolv.conf sys srv/ftp srv/http proc).each do |x|
     run "rm -rf #{new_root}/#{x}"
   end
-  run "tar --numeric-owner -C #{new_root} -cjf #{releasedir}/root.tar.bz2 ."
+
+
 end
 
 package(
