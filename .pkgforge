@@ -33,6 +33,7 @@ build do
   run "arch-chroot #{new_root} grub-mkconfig -o /boot/grub/grub.cfg"
 
   run "umount #{new_root}"
+  run "losetup -d #{loopback}"
 end
 
 package(
