@@ -15,6 +15,7 @@ build do
   run "losetup --show -P -f #{new_image}"
   loopback = `losetup -ln --raw | grep "#{new_image}" | cut -d" " -f1`.chomp
   puts "Found loopback: #{loopback}"
+  sleep 1
   part = "#{loopback}p1"
   run "mkfs.ext4 -F #{part}"
 
