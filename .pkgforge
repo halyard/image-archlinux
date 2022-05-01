@@ -12,13 +12,15 @@ build do
 
   run "truncate --size 4G #{new_image}"
   run "parted --script #{new_image} 'mklabel msdos' 'mkpart p ext4 1 100%'"
+
   run "losetup --show -P -f #{new_image}"
   loopback = `losetup -ln --raw | grep "#{new_image}" | cut -d" " -f1`.chomp
   puts "Found loopback: #{loopback}"
-  sleep 1
   part = "#{loopback}p1"
-  run "mkfs.ext4 -F #{part}"
+  maj, min = `lsblk --raw --output "MAJ:MIN" --noheadings /dev/loop0 | tail -1`.chomp.split(':')
+  run("mknod #{part} b #{maj} #{min}" unless File.exist(part)
 
+  run "mkfs.ext4 -F #{part}"
   run "mount #{part} #{new_root}"
 
   run "pacstrap -c -G #{new_root} base linux mkinitcpio grub"
