@@ -7,8 +7,8 @@ source(
 )
 
 build do
-  new_image = File.join(tmpdir(:root), 'image')
-  new_root = File.join(tmpdir(:root), 'mount')
+  new_image = File.join(releasedir, 'image')
+  new_root = tmpdir(:mount)
 
   run "dd if=/dev/zero of=#{new_image} bs=1MB count=2048"
   run "mkfs.ext4 -F #{new_image}"
@@ -24,15 +24,15 @@ build do
     run "rm -rf #{new_root}/#{x}"
   end
 
-
+  run "umount #{new_root}"
 end
 
 package(
   type: 'file',
   artifacts: [
     {
-      source: 'root.tar.bz2',
-      name: 'root.tar.bz2'
+      source: 'image',
+      name: 'image'
     }
   ]
 )
