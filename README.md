@@ -1,7 +1,7 @@
 halyard/image-archlinux
 =======
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/halyard/image-archlinux/Build)](https://github.com/halyard/image-archlinux/actions))
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/halyard/image-archlinux/Build)](https://github.com/halyard/image-archlinux/actions)
 [![GitHub release](https://img.shields.io/github/release/halyard/image-archlinux.svg)](https://github.com/halyard/image-archlinux/releases)
 [![License](https://img.shields.io/github/license/halyard/image-archlinux)](https://github.com/halyard/image-archlinux/blob/master/LICENSE)
 
