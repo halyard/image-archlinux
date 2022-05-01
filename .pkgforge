@@ -10,21 +10,26 @@ build do
   new_image = File.join(releasedir, 'image')
   new_root = tmpdir(:mount)
 
-  run "dd if=/dev/zero of=#{new_image} bs=1MB count=2048"
-  run "mkfs.ext4 -F #{new_image}"
-  FileUtils.mkdir_p new_root
-  run "mount #{new_image} #{new_root}"
+  run "truncate --size 4G #{new_image}"
+  run "parted --script #{new_image} 'mklabel msdos' 'mkpart p ext4 1 100%'"
+  run "losetup --show -P -f #{new_image}"
+  loopback = `losetup -ln --raw | grep "#{new_image}" | cut -d" " -f1`.chomp
+  puts "Found loopback: #{loopback}"
+  part = "#{loopback}p1"
+  run "mkfs.ext4 -F #{part}"
 
-  run "pacstrap -c -G #{new_root} base"
+  run "mount #{part} #{new_root}"
+
+  run "pacstrap -c -G #{new_root} base linux mkinitcpio grub"
   run "cp -R overlay/* #{new_root}/"
   run "arch-chroot #{new_root} pacman-key --init"
   run "arch-chroot #{new_root} pacman-key --populate"
   run "arch-chroot #{new_root} locale-gen"
-  %w(etc/hosts etc/mtab etc/resolv.conf sys srv/ftp srv/http proc).each do |x|
+  %w(srv/ftp srv/http).each do |x|
     run "rm -rf #{new_root}/#{x}"
   end
 
-  run "umount #{new_root}"
+  run "ummount #{new_root}"
 end
 
 package(
