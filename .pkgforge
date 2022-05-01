@@ -29,7 +29,10 @@ build do
     run "rm -rf #{new_root}/#{x}"
   end
 
-  run "ummount #{new_root}"
+  run "arch-chroot #{new_root} grub-install --recheck #{loopback}"
+  run "arch-chroot #{new_root} grub-mkconfig -o /boot/grub/grub.cfg"
+
+  run "umount #{new_root}"
 end
 
 package(
