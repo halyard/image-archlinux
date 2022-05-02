@@ -10,7 +10,7 @@ build do
   new_image = File.join(releasedir, 'image')
   new_root = tmpdir(:mount)
 
-  run "truncate --size 4G #{new_image}"
+  run "truncate --size 2G #{new_image}"
   run "mkfs.ext4 -F #{new_image}"
   run "mount #{new_image} #{new_root}"
 
