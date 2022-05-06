@@ -23,6 +23,9 @@ build do
     run "rm -rf #{new_root}/#{x}"
   end
 
+  run "sed -i 's/MODULES=()/MODULES=(virtio virtio_blk virtio_pci virtio_net)/' #{new_root}/etc/mkinitcpio.conf"
+  run "arch-chroot #{new_root} mkinitcpio -P"
+
   run "umount #{new_root}"
 end
 
