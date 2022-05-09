@@ -24,7 +24,7 @@ build do
   run "mkfs.ext4 -F #{part}"
   run "mount #{part} #{new_root}"
 
-  run "pacstrap -c -G #{new_root} base linux mkinitcpio grub openssh"
+  run "pacstrap -c -G #{new_root} base linux mkinitcpio grub openssh cloud-guest-utils"
   run "cp -R overlay/* #{new_root}/"
   run "arch-chroot #{new_root} pacman-key --init"
   run "arch-chroot #{new_root} pacman-key --populate"
