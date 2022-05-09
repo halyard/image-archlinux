@@ -18,6 +18,7 @@ build do
   loopback = `losetup -ln --raw | grep "#{new_image}" | cut -d" " -f1`.chomp
   puts "Found loopback: #{loopback}"
   part = "#{loopback}p1"
+  run "mount"
   maj, min = `lsblk --raw --output "MAJ:MIN" --noheadings /dev/loop0 | tail -1`.chomp.split(':')
   run("mknod #{part} b #{maj} #{min}") unless File.exist?(part)
 
