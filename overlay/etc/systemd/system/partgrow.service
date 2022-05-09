@@ -1,0 +1,14 @@
+[Unit]
+Description=Grow root device at boot
+DefaultDependencies=no
+BindsTo=-.mount
+Conflicts=shutdown.target
+After=-.mount
+Before=shutdown.target local-fs.target
+Requires=tmp.mount
+After=tmp.mount
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/bin/partgrow

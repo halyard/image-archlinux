@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -iuo pipefail
+
+partition="$(/usr/bin/lsblk -lpn | /usr/bin/awk '/\/$/ {print $1}')
+device="$(/usr/bin/lsblk -no pkname ${partition})"
+partition_number="${partition#${device}}"
+
+ret=0
+/usr/bin/growpart "${device}" "${partition_number}" || ret=$?
+if [ $ret -ne 0 -a $ret -ne 1 ]; then
+  exit $ret
+fi
+
+/usr/bin/resize2fs "${partition}"
