@@ -22,6 +22,8 @@ build do
   run("mknod #{part} b #{maj} #{min}") unless File.exist?(part)
 
   run "mount"
+  run "lsblk"
+  run "losetup -a"
   run "mkfs.ext4 -F #{part}"
   run "mount #{part} #{new_root}"
 
