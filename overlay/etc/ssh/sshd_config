@@ -1,0 +1,3 @@
+UsePam yes
+PermitRootLogin yes
+PasswordAuthentication yes
