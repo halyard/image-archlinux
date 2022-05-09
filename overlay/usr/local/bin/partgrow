@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-set -iuo pipefail
+set -euo pipefail
 
-partition="$(/usr/bin/lsblk -lpn | /usr/bin/awk '/\/$/ {print $1}')
-device="$(/usr/bin/lsblk -no pkname ${partition})"
+partition="$(/usr/bin/lsblk -lpn | /usr/bin/awk '/\/$/ {print $1}')"
+device="/dev/$(/usr/bin/lsblk -no pkname ${partition})"
 partition_number="${partition#${device}}"
 
 ret=0
