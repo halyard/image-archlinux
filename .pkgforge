@@ -11,7 +11,7 @@ build do
   new_root = tmpdir(:mount)
 
 
-  run "truncate --size 1G #{new_image}"
+  run "truncate --size 2G #{new_image}"
   run "parted --script #{new_image} 'mklabel msdos' 'mkpart p ext4 1 100%'"
 
   run "losetup --show -P -L -f #{new_image}"
