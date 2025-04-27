@@ -33,7 +33,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: pkg/image
-      if: startsWith(github.ref, 'refs/tags/'
+      if: startsWith(github.ref, 'refs/tags/')
     - name: Post to hook-exporter
       run: "./.github/exporter.sh"
       env:
