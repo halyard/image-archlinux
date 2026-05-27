@@ -36,7 +36,7 @@ build do
   run "sed -i 's/MODULES=()/MODULES=(virtio virtio_blk virtio_pci virtio_net)/' #{new_root}/etc/mkinitcpio.conf"
   run "arch-chroot #{new_root} mkinitcpio -P"
 
-  run "arch-chroot #{new_root} grub-install --recheck #{loopback}"
+  run "arch-chroot #{new_root} grub-install --target=i386-qemu --recheck #{loopback}"
   run "arch-chroot #{new_root} grub-mkconfig -o /boot/grub/grub.cfg"
 
   run "echo root:root | arch-chroot #{new_root} chpasswd"
